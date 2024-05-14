@@ -11,6 +11,7 @@ using h23final_serveur.DTOs;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using static System.Collections.Specialized.BitVector32;
+using Microsoft.AspNetCore.Identity;
 
 namespace h23final_serveur.Controllers
 {
@@ -20,9 +21,12 @@ namespace h23final_serveur.Controllers
     {
         private readonly h23final_serveurContext _context;
 
-        public MessagesController(h23final_serveurContext context)
+        private readonly UserManager<User> _userManager;
+
+        public MessagesController(h23final_serveurContext context, UserManager<User> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         [HttpGet("{channelId}")]
@@ -84,7 +88,15 @@ namespace h23final_serveur.Controllers
             }
 
             // ███ Ajouter du code ici ███
-            Message? message = null; // Ce message vide devra être remplacé par un vrai message
+            User? user = await _userManager.FindByIdAsync(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            
+
+            Message? message = await _context.Message.FindAsync(id); // Ce message vide devra être remplacé par un vrai message
+            if (message == null) { return NotFound();}
+            if (user == null || message.User != user)
+            {
+                return Unauthorized();
+            }
 
             // Code pour supprimer toutes les réactions du message. Ne pas toucher.
             if (message.Reactions != null)
@@ -98,6 +110,8 @@ namespace h23final_serveur.Controllers
             }
 
             // ███ Ajouter du code ici ███
+            _context.Message.Remove(message);
+            await _context.SaveChangesAsync();
 
             return NoContent();
         }

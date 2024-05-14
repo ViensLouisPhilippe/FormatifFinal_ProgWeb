@@ -1,0 +1,17 @@
+is_global = true
+build_property.TargetFramework = net6.0
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.RootNamespace = h23final_serveur
+build_property.RootNamespace = h23final_serveur
+build_property.ProjectDir = C:\Users\2034421\Desktop\FormatifFinal_ProgWeb\4204W6_h23_formatif_final\4204W6_h23_final\h23final_serveur\
+build_property.RazorLangVersion = 6.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = C:\Users\2034421\Desktop\FormatifFinal_ProgWeb\4204W6_h23_formatif_final\4204W6_h23_final\h23final_serveur
+build_property._RazorSourceGeneratorDebug = 
