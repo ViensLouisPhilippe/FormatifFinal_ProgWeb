@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using h23final_serveur.Data;
 using h23final_serveur.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
 
 namespace h23final_serveur.Controllers
 {
@@ -34,5 +36,14 @@ namespace h23final_serveur.Controllers
         }
 
         // ███ Ajoutez une action ici ███
+        [HttpPost]
+        [Authorize]
+        public async Task<ActionResult> PostChannel()
+        {
+            if (_context.Channel == null) { return NotFound(); }
+            User? user = await _context.Users.FindAsync(User.FindFirstValue(ClaimTypes.NameIdentifier));
+
+
+        }
     }
 }

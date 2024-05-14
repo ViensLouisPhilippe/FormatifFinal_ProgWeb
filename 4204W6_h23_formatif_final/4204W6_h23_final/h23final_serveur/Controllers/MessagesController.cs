@@ -88,8 +88,8 @@ namespace h23final_serveur.Controllers
             }
 
             // ███ Ajouter du code ici ███
-            User? user = await _userManager.FindByIdAsync(User.FindFirstValue(ClaimTypes.NameIdentifier));
-            
+            User? user = await _context.Users.FindAsync(User.FindFirstValue(ClaimTypes.NameIdentifier));
+
 
             Message? message = await _context.Message.FindAsync(id); // Ce message vide devra être remplacé par un vrai message
             if (message == null) { return NotFound();}
