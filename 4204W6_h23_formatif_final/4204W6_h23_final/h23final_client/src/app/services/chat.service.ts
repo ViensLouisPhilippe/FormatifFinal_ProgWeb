@@ -15,6 +15,12 @@ export class ChatService {
   constructor(public httpClient : HttpClient) { }
 
   // ███ Il n'y a aucune fonction pour poster un nouveau Channel pour le moment ███
+  async postChannel(nom : string){
+    let x = await lastValueFrom(this.httpClient.post<any>(domain + "/api/Channels/PostChannel", nom));
+    console.log(x);
+    return x
+  }
+
 
   async getChannelRequest(): Promise<Channel[]> {
     let x : Channel[] = await lastValueFrom(this.httpClient.get<Channel[]>(domain + "/api/Channels/GetChannel"));

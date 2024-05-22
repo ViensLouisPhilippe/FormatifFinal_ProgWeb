@@ -37,13 +37,14 @@ namespace h23final_serveur.Controllers
 
         // ███ Ajoutez une action ici ███
         [HttpPost]
-        [Authorize]
-        public async Task<ActionResult> PostChannel()
+        [Authorize(Roles="moderator")]
+        public async Task<ActionResult> PostChannel(string name)
         {
-            if (_context.Channel == null) { return NotFound(); }
             User? user = await _context.Users.FindAsync(User.FindFirstValue(ClaimTypes.NameIdentifier));
 
-
+            _context.Channel.Add(new Channel { Name = name });
+            await _context.SaveChangesAsync();
+            return Ok();
         }
     }
 }
