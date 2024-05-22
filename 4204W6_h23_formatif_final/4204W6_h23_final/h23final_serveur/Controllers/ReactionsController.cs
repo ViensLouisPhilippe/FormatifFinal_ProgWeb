@@ -9,6 +9,7 @@ using h23final_serveur.Data;
 using h23final_serveur.Models;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.CodeAnalysis.CSharp;
 
 namespace h23final_serveur.Controllers
 {
@@ -52,15 +53,36 @@ namespace h23final_serveur.Controllers
 
             // ███ À compléter ███
 			
-            Reaction? reaction = null;
+            Reaction? reaction = await _context.Reaction.FindAsync(id);
+            User? user = await _context.Users.FindAsync(User.FindFirstValue(ClaimTypes.NameIdentifier));
 
-            if (reaction == null || User == null)
+
+            if (reaction == null || user == null)
             {
                 return NotFound("Réaction non trouvée ou utilisateur non trouvé !");
             }
 
             // ███ À compléter ███
 
+            if (reaction.Users.Contains(user))
+            {
+                reaction.Users.Remove(user);
+                reaction.Quantity = reaction.Users.Count;
+                if (reaction.Users.Count == 0)
+                {
+                    System.IO.File.Delete(Directory.GetCurrentDirectory() + "/images/reactions/" + reaction.FileName);
+                    _context.Reaction.Remove(reaction);
+                    await _context.SaveChangesAsync();
+                    return Ok();
+                }
+            }
+            else
+            {
+                reaction.Users.Add(user);
+                reaction.Quantity = reaction.Users.Count;
+            }
+
+            await _context.SaveChangesAsync();
             return Ok(reaction);
         }
 

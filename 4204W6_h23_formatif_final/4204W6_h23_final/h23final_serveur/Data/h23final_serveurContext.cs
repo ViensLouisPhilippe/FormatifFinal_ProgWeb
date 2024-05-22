@@ -74,7 +74,7 @@ namespace h23final_serveur.Data
 
             builder.Entity<Reaction>().HasData(new
             {
-                Id = 1, 
+                Id = 1,
                 FileName = "11111111-1111-1111-1111-111111111111.png",
                 Quantity = 1,
                 MimeType = "image/png",
@@ -86,6 +86,13 @@ namespace h23final_serveur.Data
                 Quantity = 2,
                 MimeType = "image/png",
                 MessageId = 5
+            }, new
+            {
+                Id = 3,
+                FileName = "eggplant.png",
+                Quantity = 1,
+                MimeType = "image/png",
+                MessageId = 1
             });
 
             builder.Entity<Reaction>()
@@ -96,6 +103,7 @@ namespace h23final_serveur.Data
                     e.HasData(new { UsersId = u2.Id, ReactionsId = 1 });
                     e.HasData(new { UsersId = u1.Id, ReactionsId = 2 });
                     e.HasData(new { UsersId = u2.Id, ReactionsId = 2 });
+                    e.HasData(new { UsersId = u2.Id, ReactionsId = 3 });
                 });
         }
 
