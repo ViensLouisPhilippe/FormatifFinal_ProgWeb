@@ -36,15 +36,23 @@ namespace h23final_serveur.Controllers
         }
 
         // ███ Ajoutez une action ici ███
-        [HttpPost]
-        [Authorize(Roles="moderator")]
+        [HttpPost("{name}")]
+        [Authorize(Roles = "moderator")]
         public async Task<ActionResult> PostChannel(string name)
         {
-            User? user = await _context.Users.FindAsync(User.FindFirstValue(ClaimTypes.NameIdentifier));
-
-            _context.Channel.Add(new Channel { Name = name });
+            if (_context.Channel == null)
+            {
+                return Problem("Entity set 'h23final_serveurContext.Channel' is null.");
+            }
+            if (name == null || name == "")
+            {
+                return BadRequest();
+            }
+            Channel channel = new Channel() { Id = 0, Name = name };
+            _context.Channel.Add(channel);
             await _context.SaveChangesAsync();
-            return Ok();
+
+            return Ok(channel);
         }
     }
 }

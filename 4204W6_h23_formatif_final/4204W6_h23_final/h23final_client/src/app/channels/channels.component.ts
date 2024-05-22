@@ -49,7 +49,11 @@ export class ChannelsComponent implements OnInit {
     
     // Allo 👋
     // Ce n'est pas grave si jamais il faut réactualiser la page pour voir le nouveau channel.
-    this.chatService.postChannel(this.nomChannel)
+    if(this.nomChannel){
+      let newChannel = await this.chatService.postChannel(this.nomChannel);
+      this.channelList.push(newChannel);
+      this.nomChannel = "";
+    }
   }
 
   async getChannelMessages(){
